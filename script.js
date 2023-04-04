@@ -1,24 +1,25 @@
-//your JS code here. If required.
 const images = [
   {
-    url: 'https://picsum.photos/200',
-    alt: 'Random Image 1'
+    url: "https://picsum.photos/id/237/200/300",
+    alt: "Image 1",
   },
   {
-    url: 'https://picsum.photos/250',
-    alt: 'Random Image 2'
+    url: "https://picsum.photos/id/238/200/300",
+    alt: "Image 2",
   },
   {
-    url: 'https://picsum.photos/300',
-    alt: 'Random Image 3'
+    url: "https://picsum.photos/id/239/200/300",
+    alt: "Image 3",
   }
+  
 ];
 
-function downloadAndDisplayImages() {
+function downloadImages(images) {
   const promises = images.map(image => {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.src = image.url;
+      img.alt = image.alt;
       img.onload = () => {
         resolve(img);
       };
@@ -29,10 +30,11 @@ function downloadAndDisplayImages() {
   });
 
   Promise.all(promises)
-    .then(images => {
-      const outputDiv = document.getElementById('output');
-      images.forEach(img => {
-        outputDiv.appendChild(img);
+    .then(imgs => {
+      const output = document.getElementById('output');
+		output.innerHTML = null;
+      imgs.forEach(img => {
+        output.appendChild(img);
       });
     })
     .catch(error => {
@@ -40,5 +42,7 @@ function downloadAndDisplayImages() {
     });
 }
 
-const downloadButton = document.getElementById('download-images-button');
-downloadButton.addEventListener('click', downloadAndDisplayImages);
+const button = document.getElementById('download-images-button');
+button.addEventListener('click', () => {
+  downloadImages(images);
+});
